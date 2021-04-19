@@ -1,17 +1,17 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2009-2017 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.ibatis.submitted.cursor_simple;
 
@@ -41,14 +41,16 @@ public class CursorSimpleTest {
     @BeforeClass
     public static void setUp() throws Exception {
         // create a SqlSessionFactory
-        Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/cursor_simple/mybatis-config.xml");
+        Reader reader = Resources.getResourceAsReader(
+                "org/apache/ibatis/submitted/cursor_simple/mybatis-config.xml");
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         reader.close();
 
         // populate in-memory database
         SqlSession session = sqlSessionFactory.openSession();
         Connection conn = session.getConnection();
-        reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/cursor_simple/CreateDB.sql");
+        reader = Resources
+                .getResourceAsReader("org/apache/ibatis/submitted/cursor_simple/CreateDB.sql");
         ScriptRunner runner = new ScriptRunner(conn);
         runner.setLogWriter(null);
         runner.runScript(reader);
@@ -145,7 +147,8 @@ public class CursorSimpleTest {
 
         try {
             // RowBound starting at offset 1 and limiting to 2 items
-            Cursor<User> usersCursor = sqlSession.selectCursor("getAllUsers", null, new RowBounds(1, 3));
+            Cursor<User> usersCursor =
+                    sqlSession.selectCursor("getAllUsers", null, new RowBounds(1, 3));
 
             Iterator<User> iterator = usersCursor.iterator();
 
@@ -176,7 +179,8 @@ public class CursorSimpleTest {
     public void testCursorIteratorNoSuchElementExceptionWithHasNext() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
-        Cursor<User> usersCursor = sqlSession.selectCursor("getAllUsers", null, new RowBounds(1, 1));
+        Cursor<User> usersCursor =
+                sqlSession.selectCursor("getAllUsers", null, new RowBounds(1, 1));
         try {
             Iterator<User> iterator = usersCursor.iterator();
 
@@ -199,7 +203,8 @@ public class CursorSimpleTest {
     public void testCursorIteratorNoSuchElementExceptionNoHasNext() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
-        Cursor<User> usersCursor = sqlSession.selectCursor("getAllUsers", null, new RowBounds(1, 1));
+        Cursor<User> usersCursor =
+                sqlSession.selectCursor("getAllUsers", null, new RowBounds(1, 1));
         try {
             Iterator<User> iterator = usersCursor.iterator();
 
@@ -225,7 +230,8 @@ public class CursorSimpleTest {
 
         try {
             // Trying to start at offset 10 (which does not exist, since there is only 4 items)
-            Cursor<User> usersCursor = sqlSession.selectCursor("getAllUsers", null, new RowBounds(10, 2));
+            Cursor<User> usersCursor =
+                    sqlSession.selectCursor("getAllUsers", null, new RowBounds(10, 2));
             Iterator<User> iterator = usersCursor.iterator();
 
             Assert.assertFalse(iterator.hasNext());
@@ -276,7 +282,8 @@ public class CursorSimpleTest {
 
             iterator2 = usersCursor.iterator();
             iterator2.hasNext();
-            Assert.fail("We should have failed since calling iterator several times is not allowed");
+            Assert.fail(
+                    "We should have failed since calling iterator several times is not allowed");
         } catch (IllegalStateException e) {
             Assert.assertNull("iterator2 should be null", iterator2);
             return;
@@ -369,9 +376,9 @@ public class CursorSimpleTest {
             Assert.assertEquals(-1, usersCursor.getCurrentIndex());
 
             List<User> userList = new ArrayList<User>();
-            for (User user : usersCursor){
+            for (User user : usersCursor) {
                 userList.add(user);
-                Assert.assertEquals(userList.size() -1, usersCursor.getCurrentIndex());
+                Assert.assertEquals(userList.size() - 1, usersCursor.getCurrentIndex());
             }
 
             Assert.assertFalse(usersCursor.isOpen());

@@ -17,8 +17,8 @@
 
 -->
 <!DOCTYPE configuration
-    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
     <settings>
@@ -26,7 +26,8 @@
     </settings>
 
     <typeAliases>
-        <typeAlias alias="ImmutablePOJO" type="org.apache.ibatis.submitted.lazy_immutable.ImmutablePOJO"/>
+        <typeAlias alias="ImmutablePOJO"
+                   type="org.apache.ibatis.submitted.lazy_immutable.ImmutablePOJO"/>
     </typeAliases>
 
     <environments default="test">

@@ -1,17 +1,17 @@
 /**
- *    Copyright 2009-2016 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2009-2016 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.ibatis.session;
 
@@ -41,23 +41,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AutoMappingUnknownColumnBehaviorTest {
 
     interface Mapper {
-        @Select({
-                "SELECT ",
-                "  ID,",
-                "  USERNAME as USERNAMEEEE,", // unknown column
-                "  PASSWORD,",
-                "  EMAIL,",
-                "  BIO",
-                "FROM AUTHOR WHERE ID = #{id}"})
+        @Select({"SELECT ", "  ID,", "  USERNAME as USERNAMEEEE,", // unknown column
+                "  PASSWORD,", "  EMAIL,", "  BIO", "FROM AUTHOR WHERE ID = #{id}"})
         Author selectAuthor(int id);
 
-        @Select({
-                "SELECT ",
-                "  ID,", // unknown property type
-                "  USERNAME",
-                "FROM AUTHOR WHERE ID = #{id}"})
+        @Select({"SELECT ", "  ID,", // unknown property type
+                "  USERNAME", "FROM AUTHOR WHERE ID = #{id}"})
         SimpleAuthor selectSimpleAuthor(int id);
     }
+
 
     static class SimpleAuthor {
         private AtomicInteger id; // unknown property type
@@ -80,6 +72,7 @@ public class AutoMappingUnknownColumnBehaviorTest {
         }
     }
 
+
     public static class LastEventSavedAppender extends NullAppender {
         private static LoggingEvent event;
 
@@ -87,6 +80,7 @@ public class AutoMappingUnknownColumnBehaviorTest {
             LastEventSavedAppender.event = event;
         }
     }
+
 
     private static SqlSessionFactory sqlSessionFactory;
 
@@ -102,7 +96,8 @@ public class AutoMappingUnknownColumnBehaviorTest {
 
     @Test
     public void none() {
-        sqlSessionFactory.getConfiguration().setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.NONE);
+        sqlSessionFactory.getConfiguration()
+                .setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.NONE);
         SqlSession session = sqlSessionFactory.openSession();
         try {
             Mapper mapper = session.getMapper(Mapper.class);
@@ -117,7 +112,8 @@ public class AutoMappingUnknownColumnBehaviorTest {
 
     @Test
     public void warningCauseByUnknownPropertyType() {
-        sqlSessionFactory.getConfiguration().setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.WARNING);
+        sqlSessionFactory.getConfiguration()
+                .setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.WARNING);
 
         SqlSession session = sqlSessionFactory.openSession();
 
@@ -126,7 +122,8 @@ public class AutoMappingUnknownColumnBehaviorTest {
             SimpleAuthor author = mapper.selectSimpleAuthor(101);
             assertThat(author.getId()).isNull();
             assertThat(author.getUsername()).isEqualTo("jim");
-            assertThat(LastEventSavedAppender.event.getMessage().toString()).isEqualTo("Unknown column is detected on 'org.apache.ibatis.session.AutoMappingUnknownColumnBehaviorTest$Mapper.selectSimpleAuthor' auto-mapping. Mapping parameters are [columnName=ID,propertyName=id,propertyType=java.util.concurrent.atomic.AtomicInteger]");
+            assertThat(LastEventSavedAppender.event.getMessage().toString()).isEqualTo(
+                    "Unknown column is detected on 'org.apache.ibatis.session.AutoMappingUnknownColumnBehaviorTest$Mapper.selectSimpleAuthor' auto-mapping. Mapping parameters are [columnName=ID,propertyName=id,propertyType=java.util.concurrent.atomic.AtomicInteger]");
 
         } finally {
             session.close();
@@ -136,7 +133,8 @@ public class AutoMappingUnknownColumnBehaviorTest {
 
     @Test
     public void failingCauseByUnknownColumn() {
-        sqlSessionFactory.getConfiguration().setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.FAILING);
+        sqlSessionFactory.getConfiguration()
+                .setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.FAILING);
 
         SqlSession session = sqlSessionFactory.openSession();
 
@@ -145,7 +143,8 @@ public class AutoMappingUnknownColumnBehaviorTest {
             mapper.selectAuthor(101);
         } catch (PersistenceException e) {
             assertThat(e.getCause()).isInstanceOf(SqlSessionException.class);
-            assertThat(e.getCause().getMessage()).isEqualTo("Unknown column is detected on 'org.apache.ibatis.session.AutoMappingUnknownColumnBehaviorTest$Mapper.selectAuthor' auto-mapping. Mapping parameters are [columnName=USERNAMEEEE,propertyName=USERNAMEEEE,propertyType=null]");
+            assertThat(e.getCause().getMessage()).isEqualTo(
+                    "Unknown column is detected on 'org.apache.ibatis.session.AutoMappingUnknownColumnBehaviorTest$Mapper.selectAuthor' auto-mapping. Mapping parameters are [columnName=USERNAMEEEE,propertyName=USERNAMEEEE,propertyType=null]");
         } finally {
             session.close();
         }

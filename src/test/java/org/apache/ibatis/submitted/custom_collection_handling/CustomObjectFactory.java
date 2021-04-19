@@ -1,17 +1,17 @@
 /**
- *    Copyright 2009-2016 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2009-2016 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.ibatis.submitted.custom_collection_handling;
 
@@ -39,7 +39,8 @@ public class CustomObjectFactory implements ObjectFactory {
     }
 
     @Override
-    public <T> T create(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
+    public <T> T create(Class<T> type, List<Class<?>> constructorArgTypes,
+            List<Object> constructorArgs) {
         Class<?> classToCreate = resolveInterface(type);
         @SuppressWarnings("unchecked") // we know types are assignable
         T created = (T) instantiateClass(classToCreate, constructorArgTypes, constructorArgs);
@@ -51,7 +52,8 @@ public class CustomObjectFactory implements ObjectFactory {
         // no props for default
     }
 
-    private <T> T instantiateClass(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
+    private <T> T instantiateClass(Class<T> type, List<Class<?>> constructorArgTypes,
+            List<Object> constructorArgs) {
         try {
             Constructor<T> constructor;
             if (constructorArgTypes == null || constructorArgs == null) {
@@ -61,11 +63,13 @@ public class CustomObjectFactory implements ObjectFactory {
                 }
                 return constructor.newInstance();
             }
-            constructor = type.getDeclaredConstructor(constructorArgTypes.toArray(new Class[constructorArgTypes.size()]));
+            constructor = type.getDeclaredConstructor(
+                    constructorArgTypes.toArray(new Class[constructorArgTypes.size()]));
             if (!constructor.isAccessible()) {
                 constructor.setAccessible(true);
             }
-            return constructor.newInstance(constructorArgs.toArray(new Object[constructorArgs.size()]));
+            return constructor
+                    .newInstance(constructorArgs.toArray(new Object[constructorArgs.size()]));
         } catch (Exception e) {
             StringBuilder argTypes = new StringBuilder();
             if (constructorArgTypes != null) {
@@ -81,7 +85,9 @@ public class CustomObjectFactory implements ObjectFactory {
                     argValues.append(",");
                 }
             }
-            throw new ReflectionException("Error instantiating " + type + " with invalid types (" + argTypes + ") or values (" + argValues + "). Cause: " + e, e);
+            throw new ReflectionException(
+                    "Error instantiating " + type + " with invalid types (" + argTypes
+                            + ") or values (" + argValues + "). Cause: " + e, e);
         }
     }
 
@@ -100,15 +106,15 @@ public class CustomObjectFactory implements ObjectFactory {
         }
         return classToCreate;
     }
-    
+
     @Override
     public <T> boolean isCollection(Class<T> type) {
-      return CustomCollection.class.isAssignableFrom(type);
+        return CustomCollection.class.isAssignableFrom(type);
     }
 
     @SuppressWarnings("unchecked")
     public <T> T[] createArray(Class<T> type, int size) {
-      return (T[]) Array.newInstance(type, size);
+        return (T[]) Array.newInstance(type, size);
     }
 
 }
