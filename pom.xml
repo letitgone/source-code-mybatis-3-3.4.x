@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-       Copyright 2009-2019 the original author or authors.
+       Copyright 2009-2021 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
@@ -16,16 +16,14 @@
        limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis-parent</artifactId>
         <version>29</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <artifactId>mybatis</artifactId>
@@ -34,12 +32,9 @@
 
     <name>mybatis</name>
     <description>
-        The MyBatis SQL mapper framework makes it easier to use a relational database with
-        object-oriented
-        applications. MyBatis couples objects with stored procedures or SQL statements using a XML
-        descriptor or
-        annotations. Simplicity is the biggest advantage of the MyBatis data mapper over object
-        relational mapping
+        The MyBatis SQL mapper framework makes it easier to use a relational database with object-oriented
+        applications. MyBatis couples objects with stored procedures or SQL statements using a XML descriptor or
+        annotations. Simplicity is the biggest advantage of the MyBatis data mapper over object relational mapping
         tools.
     </description>
     <url>http://www.mybatis.org/mybatis-3</url>
@@ -116,8 +111,7 @@
     <scm>
         <url>http://github.com/mybatis/mybatis-3</url>
         <connection>scm:git:ssh://github.com/mybatis/mybatis-3.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/mybatis/mybatis-3.git
-        </developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/mybatis/mybatis-3.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <issueManagement>
@@ -128,13 +122,13 @@
         <system>Travis CI</system>
         <url>https://travis-ci.org/mybatis/mybatis-3/</url>
     </ciManagement>
-    <!--  <distributionManagement>-->
-    <!--    <site>-->
-    <!--      <id>gh-pages</id>-->
-    <!--      <name>Mybatis GitHub Pages</name>-->
-    <!--      <url>git:ssh://git@github.com/mybatis/mybatis-3.git?gh-pages#</url>-->
-    <!--    </site>-->
-    <!--  </distributionManagement>-->
+    <distributionManagement>
+        <site>
+            <id>gh-pages</id>
+            <name>Mybatis GitHub Pages</name>
+            <url>git:ssh://git@github.com/mybatis/mybatis-3.git?gh-pages#</url>
+        </site>
+    </distributionManagement>
 
     <properties>
         <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
@@ -145,8 +139,7 @@
         <osgi.export>org.apache.ibatis.*;version=${project.version};-noimport:=true</osgi.export>
         <osgi.import>*;resolution:=optional</osgi.import>
         <osgi.dynamicImport>*</osgi.dynamicImport>
-        <maven.surefire.excludeGroups>org.apache.ibatis.test.SlowTests
-        </maven.surefire.excludeGroups>
+        <maven.surefire.excludeGroups>org.apache.ibatis.test.SlowTests</maven.surefire.excludeGroups>
     </properties>
 
     <dependencies>
@@ -279,14 +272,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <testCompilerArgument>${maven.compiler.testCompilerArgument}
-                    </testCompilerArgument>
+                    <testCompilerArgument>${maven.compiler.testCompilerArgument}</testCompilerArgument>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
                     <excludedGroups>${maven.surefire.excludeGroups}</excludedGroups>
                     <argLine>${argLine} -Xmx2048m</argLine>
                     <systemProperties>
@@ -301,10 +294,10 @@
                     </systemProperties>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pdf-plugin</artifactId>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-pdf-plugin</artifactId>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -388,173 +381,95 @@
         </testResources>
     </build>
 
-    <!--  <profiles>-->
-    <!--    <profile>-->
-    <!--      <id>java16</id>-->
-    <!--      <activation>-->
-    <!--        <jdk>1.6</jdk>-->
-    <!--      </activation>-->
-    <!--      <properties>-->
-    <!--        <maven.compiler.testTarget>1.6</maven.compiler.testTarget>-->
-    <!--        <maven.compiler.testSource>1.6</maven.compiler.testSource>-->
-    <!--        <maven.compiler.testCompilerArgument />-->
-    <!--      </properties>-->
-    <!--      <build>-->
-    <!--        <pluginManagement>-->
-    <!--          <plugins>-->
-    <!--            <plugin>-->
-    <!--              <groupId>org.apache.maven.plugins</groupId>-->
-    <!--              <artifactId>maven-compiler-plugin</artifactId>-->
-    <!--              <configuration>-->
-    <!--                <testExcludes>-->
-    <!--                  <testExclude>**/usesjava7/**/*.java</testExclude>-->
-    <!--                  <testExclude>**/usesjava8/**/*.java</testExclude>-->
-    <!--                </testExcludes>-->
-    <!--              </configuration>-->
-    <!--            </plugin>-->
-    <!--            <plugin>-->
-    <!--              <groupId>org.apache.felix</groupId>-->
-    <!--              <artifactId>maven-bundle-plugin</artifactId>-->
-    <!--              <version>2.5.4</version> &lt;!&ndash; For java 6, remain at older version &ndash;&gt;-->
-    <!--            </plugin>-->
-    <!--          </plugins>-->
-    <!--        </pluginManagement>-->
-    <!--        <plugins>-->
-    <!--            <plugin>-->
-    <!--              <groupId>org.apache.felix</groupId>-->
-    <!--              <artifactId>maven-bundle-plugin</artifactId>-->
-    <!--              <version>2.5.4</version> &lt;!&ndash; For java 6, remain at older version &ndash;&gt;-->
-    <!--            </plugin>-->
-    <!--        </plugins>-->
-    <!--      </build>-->
-    <!--      &lt;!&ndash; for gh-1388 (modify url of maven central to http from https) &ndash;&gt;-->
-    <!--      <repositories>-->
-    <!--        <repository>-->
-    <!--          <snapshots>-->
-    <!--            <enabled>false</enabled>-->
-    <!--          </snapshots>-->
-    <!--          <id>central</id>-->
-    <!--          <name>Central Repository</name>-->
-    <!--          <url>http://repo1.maven.org/maven2/</url>-->
-    <!--        </repository>-->
-    <!--      </repositories>-->
-    <!--      <pluginRepositories>-->
-    <!--        <pluginRepository>-->
-    <!--          <releases>-->
-    <!--            <updatePolicy>never</updatePolicy>-->
-    <!--          </releases>-->
-    <!--          <snapshots>-->
-    <!--            <enabled>false</enabled>-->
-    <!--          </snapshots>-->
-    <!--          <id>central</id>-->
-    <!--          <name>Central Repository</name>-->
-    <!--          <url>http://repo1.maven.org/maven2/</url>-->
-    <!--        </pluginRepository>-->
-    <!--      </pluginRepositories>-->
-    <!--    </profile>-->
-    <!--    <profile>-->
-    <!--      <id>java17</id>-->
-    <!--      <activation>-->
-    <!--        <jdk>1.7</jdk>-->
-    <!--      </activation>-->
-    <!--      <properties>-->
-    <!--        <maven.compiler.testTarget>1.7</maven.compiler.testTarget>-->
-    <!--        <maven.compiler.testSource>1.7</maven.compiler.testSource>-->
-    <!--        <maven.compiler.testCompilerArgument />-->
-    <!--      </properties>-->
-    <!--      <build>-->
-    <!--        <pluginManagement>-->
-    <!--          <plugins>-->
-    <!--            <plugin>-->
-    <!--              <groupId>org.apache.maven.plugins</groupId>-->
-    <!--              <artifactId>maven-compiler-plugin</artifactId>-->
-    <!--              <configuration>-->
-    <!--                <testExcludes>-->
-    <!--                  <testExclude>**/usesjava8/**/*.java</testExclude>-->
-    <!--                </testExcludes>-->
-    <!--              </configuration>-->
-    <!--            </plugin>-->
-    <!--          </plugins>-->
-    <!--        </pluginManagement>-->
-    <!--      </build>-->
-    <!--    </profile>-->
-    <!--  </profiles>-->
-
-
-    <repositories>
-        <repository>
-            <id>komodo</id>
-            <name>komodo nexus maven</name>
-            <!--suppress UnresolvedMavenProperty -->
-            <url>http://${repository.url}/repository/maven-public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>komodo</id>
-            <name>komodo nexus maven</name>
-            <!--suppress UnresolvedMavenProperty -->
-            <url>http://${repository.url}/repository/maven-public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <distributionManagement>
-        <repository>
-            <id>komodo-nexus-releases</id>
-            <name>Releases</name>
-            <url>http://${repository.url}/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>komodo-nexus-snapshot</id>
-            <name>Snapshot</name>
-            <url>http://${repository.url}/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <profiles>
         <profile>
-            <id>dev</id>
-            <properties>
-                <repository.url>8.140.171.253:8081</repository.url>
-            </properties>
+            <id>java16</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <jdk>1.6</jdk>
             </activation>
+            <properties>
+                <maven.compiler.testTarget>1.6</maven.compiler.testTarget>
+                <maven.compiler.testSource>1.6</maven.compiler.testSource>
+                <maven.compiler.testCompilerArgument />
+            </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <configuration>
+                                <testExcludes>
+                                    <testExclude>**/usesjava7/**/*.java</testExclude>
+                                    <testExclude>**/usesjava8/**/*.java</testExclude>
+                                </testExcludes>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.felix</groupId>
+                            <artifactId>maven-bundle-plugin</artifactId>
+                            <version>2.5.4</version> <!-- For java 6, remain at older version -->
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.felix</groupId>
+                        <artifactId>maven-bundle-plugin</artifactId>
+                        <version>2.5.4</version> <!-- For java 6, remain at older version -->
+                    </plugin>
+                </plugins>
+            </build>
+            <!-- for gh-1388 (modify url of maven central to http from https) -->
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>Central Repository</name>
+                    <url>http://repo1.maven.org/maven2/</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <releases>
+                        <updatePolicy>never</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>Central Repository</name>
+                    <url>http://repo1.maven.org/maven2/</url>
+                </pluginRepository>
+            </pluginRepositories>
         </profile>
         <profile>
-            <id>bug</id>
+            <id>java17</id>
+            <activation>
+                <jdk>1.7</jdk>
+            </activation>
             <properties>
-                <repository.url>8.1408888.171.253:8081</repository.url>
+                <maven.compiler.testTarget>1.7</maven.compiler.testTarget>
+                <maven.compiler.testSource>1.7</maven.compiler.testSource>
+                <maven.compiler.testCompilerArgument />
             </properties>
-        </profile>
-        <profile>
-            <id>release</id>
-            <properties>
-                <repository.url>8.140.171.253:8081</repository.url>
-            </properties>
-        </profile>
-        <profile>
-            <id>master</id>
-            <properties>
-                <repository.url>8.140.171.253:8081</repository.url>
-            </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <configuration>
+                                <testExcludes>
+                                    <testExclude>**/usesjava8/**/*.java</testExclude>
+                                </testExcludes>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
         </profile>
     </profiles>
 </project>
